@@ -1,5 +1,14 @@
+variable "region" {
+  description = "AWS Region"
+  type        = string
+}
+
+variable "instance_name" {
+  description = "Name for the EC2 instance"
+  type        = string
+}
 provider "aws" {
-  region = ""
+  region = "var.region"
 }
 
 resource "aws_instance" "web" {
@@ -7,6 +16,6 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
   
   tags = {
-    Name = ""
+    Name = "var.instance_name.Name"
   }
 }
