@@ -3,13 +3,11 @@ pipeline {
     environment {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-        TF_VAR_region = "${Region}"
-        TF_VAR_name  = "${Name}"
     }
 
     parameters {
 
-        choice(name: 'Region', choices: ['us-east-1', 'us-west2'], description: 'Pick something')
+        choice(name: 'Region', choices: ['us-east-1', 'us-west2'], description: '')
         text(name: 'Name', defaultValue: '', description: 'Enter Name')
         booleanParam(name: 'AutoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
 
@@ -30,7 +28,7 @@ pipeline {
 
         stage('Plan') {
             steps {
-                sh 'pwd;cd terraform/ ; terraform init -no-color'
+                sh "pwd;cd terraform/ ; terraform init -no-color -var 'region=${params.Region}' -var 'name=${params.Name}'"
                 sh "pwd;cd terraform/ ; terraform plan -no-color -out tfplan"
                 sh 'pwd;cd terraform/ ; terraform show -no-color tfplan > tfplan.txt'
             }
