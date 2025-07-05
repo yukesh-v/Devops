@@ -1,18 +1,24 @@
 pipeline {
 
-    parameters {
-        booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
-    } 
     environment {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
+
+    parameters {
+
+        choice(name: 'Region', choices: ['us-east-1', 'us-west2'], description: '')
+        text(name: 'Name', defaultValue: '', description: 'Enter Name')
+        booleanParam(name: 'AutoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
+
+    } 
 
    agent  any
     stages {
         stage('checkout') {
             steps {
                  script{
+                     cleanWs()
                         dir("terraform")
                         {
                             git "https://github.com/yukesh-v/Devops.git"
@@ -23,7 +29,10 @@ pipeline {
 
         stage('Plan') {
             steps {
-                sh 'pwd;cd terraform/ ; terraform init'
+                echo "Region parameter: ${params.Region}"
+                echo "Name parameter: ${params.Name}"
+                echo "AutoApprove parameter: ${params.AutoApprove}"
+                sh "pwd;cd terraform/ ; terraform init -no-color -var 'region=${params.Region}' -var 'tags={\"Name\":\"${params.Name}\"}'"
                 sh "pwd;cd terraform/ ; terraform plan -no-color -out tfplan"
                 sh 'pwd;cd terraform/ ; terraform show -no-color tfplan > tfplan.txt'
             }
@@ -46,7 +55,7 @@ pipeline {
 
         stage('Apply') {
             steps {
-                sh "pwd;cd terraform/ ; terraform apply  -no-color -input=false tfplan"
+                sh "pwd;cd terraform/ ; terraform apply -no-color -input=false tfplan"
             }
         }
     }
