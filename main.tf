@@ -7,6 +7,6 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
   key_name = "id_pair"
   tags = {
-    Name = "Test1"
+    Name = "Test2"
   }
 }
