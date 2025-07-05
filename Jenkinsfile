@@ -28,7 +28,7 @@ pipeline {
 
         stage('Plan') {
             steps {
-                sh "pwd;cd terraform/ ; terraform init -no-color -var 'region=${params.Region}' -var 'tags={\"Name\":\"${params.Name}\"}'"
+                sh "pwd;cd terraform/ ; terraform init -no-color -var 'region=${params.Region}' -var 'instance_name=${params.Name}' -var 'tags={}'"
                 sh "pwd;cd terraform/ ; terraform plan -no-color -out tfplan"
                 sh 'pwd;cd terraform/ ; terraform show -no-color tfplan > tfplan.txt'
             }
