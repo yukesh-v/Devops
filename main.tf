@@ -1,5 +1,5 @@
 provider "aws" {
-  region = ""
+  region = "TF_VAR_region"
 }
 
 resource "aws_instance" "web" {
@@ -7,6 +7,6 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
   
   tags = {
-    Name = ""
+    Name = "TF_VAR_name"
   }
 }
