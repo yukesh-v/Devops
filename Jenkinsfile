@@ -33,7 +33,7 @@ pipeline {
                 echo "Name parameter: ${params.Name}"
                 echo "AutoApprove parameter: ${params.AutoApprove}"
                 sh "pwd;cd terraform/ ; terraform init -no-color"
-                sh "pwd;cd terraform/ ; terraform plan -no-color -out tfplan -var 'region=${params.Region}' -var 'tags={\"Name\"= \"${params.Name}\"}'"
+                sh "pwd;cd terraform/ ; terraform plan -no-color -out tfplan -var 'region="${params.Region}"' -var 'tags={\"Name\"= \"${params.Name}\"}'"
                 sh 'pwd;cd terraform/ ; terraform show -no-color tfplan > tfplan.txt'
             }
         }
