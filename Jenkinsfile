@@ -21,7 +21,7 @@ pipeline {
                      cleanWs()
                         dir("terraform")
                         {
-                            git "https://github.com/yukesh-v/Devops.git"
+                            git branch: 'main' , url: "https://github.com/yukesh-v/Devops.git"
                         }
                     }
                 }
