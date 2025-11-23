@@ -1,25 +1,16 @@
 pipeline {
-   agent  any
-    stages {
-        stage('checkout') {
-            steps {
-                 script{
-                     cleanWs()
-                        dir("ansible")
-                        {
-                            git "https://github.com/yukesh-v/Devops.git"
-                        }
-                    }
-                }
-            }
+    agent any
 
-        stage('running playbook') {
+    stages {
+        stage('Execute Ansible on Local Windows (via WSL)') {
             steps {
-                sh 'pwd;cd ansible/ ; ansible-playbook install-docker-palybook.yml'
+                // Use the 'bat' step to execute a Windows command
+                bat '''
+                wsl.exe ansible-playbook install-docker-playbook.yml --connection=local
+                '''
+                // --connection=local is often needed to explicitly tell Ansible
+                // to execute the play on the local host (the WSL environment).
             }
         }
-
-       
     }
-
-  }
+}
