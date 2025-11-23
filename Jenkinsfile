@@ -7,6 +7,7 @@ pipeline {
                script{
                    sh 'ansible-playbook install-docker-playbook.yml'
             }
+            }
         }
     }
 }
