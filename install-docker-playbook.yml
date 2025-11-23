@@ -1,5 +1,5 @@
 - hosts: localhost
-  become: yes
+  become: ubuntu
   tasks:
     - name: Install Docker
       apt:
