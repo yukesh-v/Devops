@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Running ansible playbook') {
             steps {
-               scripts{
+               script{
                    sh 'ansible-playbook install-docker-playbook.yml'
             }
         }
