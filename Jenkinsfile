@@ -1,11 +1,11 @@
 pipeline {
     agent any
-    stage('Identify User') {
+    stages {
+            stage('Identify User') {
             steps {
                 sh 'whoami' // Finds the user running the command
             }
         }
-    stages {
         stage('Running ansible playbook') {
             steps {
                script{
