@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: All
   become: yes
   tasks:
     - name: Install Docker
