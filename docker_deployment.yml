@@ -1,8 +1,10 @@
 ---
 - hosts: all
-  gather_facts: true  
-  become: true
-  
+  gather_facts: true
+  vars:
+    docker_username: "yukesh24"  
+    image_name: "my-app-calculator"                   
+    image_tag: "1.0.0"                          
   tasks:
     - name: Add user to docker group
       user:
