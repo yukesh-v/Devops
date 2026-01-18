@@ -1,12 +1,13 @@
-- hosts: all
-  become: yes
+---
+  hosts: all
+  gather_facts: true                                         
   tasks:
     - name: Login to Docker Hub
       community.docker.docker_login:
         username: "{{ docker_username }}"
-        password: "{{ docker_password }}" 
+        password: "{{ docker_password }}"
         state: present
-      no_log: false  
+      no_log: false
     - name: Deploy the imges from docker hub
       shell: |
        docker pull {{ docker_username }}/{{ image_name }}:{{ image_tag }}
@@ -29,3 +30,7 @@
     - name: Display Container Info
       ansible.builtin.debug:
         var: container_info
+        
+
+
+
