@@ -1,0 +1,25 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Deploy the imges from docker hub
+      shell: |
+       docker pull {{ docker_username }}/{{ image_name }}:{{ image_tag }}
+       docker images
+      register: deploy_image
+    - name: Display image deploy result
+      debug:
+        var: deploy_image.stdout_lines
+    - name: Run the Docker Container
+      community.docker.docker_container:
+        name: my_app_calculator_container
+        image: "{{ docker_username }}/{{ image_name }}:{{ image_tag }}"
+        state: started
+        ports:
+          - "5000:4000"
+    - name: Verify the Docker Container is Running
+      community.docker.docker_container_info:
+        name: my_app_calculator_container
+      register: container_info
+    - name: Display Container Info
+      ansible.builtin.debug:
+        var: container_info
