@@ -26,7 +26,7 @@
         image: "{{ docker_username }}/{{ image_name }}:{{ image_tag }}"
         state: started
         ports:
-          - "5000:4000"
+          - "{{ docker_port }}:4000"
     - name: Verify the Docker Container is Running
       community.docker.docker_container_info:
         name: my_app_calculator_container
