@@ -2,7 +2,7 @@
 - hosts: all
   gather_facts: true
   vars:
-    docker_username: "yukesh24"  
+    docker_username: "{{ docker_username }}"  
     image_name: "{{ docker_image_name }}"                   
     image_tag: "{{ docker_image_tag }}"                          
   tasks:
@@ -12,12 +12,6 @@
         groups: docker
         append: yes
       become: yes
-    - name: Login to Docker Hub
-      community.docker.docker_login:
-        username: "{{ docker_username }}"
-        password: "{{ docker_password }}"
-        state: present
-      no_log: false
     - name: Deploy the imges from docker hub
       shell: |
        docker pull {{ docker_username }}/{{ image_name }}:{{ image_tag }}
