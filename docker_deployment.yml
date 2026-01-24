@@ -25,8 +25,6 @@
         name: "{{ image_name }}"
         image: "{{ docker_username }}/{{ image_name }}:{{ image_tag }}"
         state: started
-        ports:
-          - "{{ docker_port }}:4000"
     - name: Verify the Docker Container is Running
       shell: |
        docker ps -a
