@@ -22,18 +22,16 @@
         var: deploy_image.stdout_lines
     - name: Run the Docker Container
       community.docker.docker_container:
-        name: my_app_calculator_container
+        name: "{{ image_name }}"
         image: "{{ docker_username }}/{{ image_name }}:{{ image_tag }}"
         state: started
         ports:
           - "{{ docker_port }}:4000"
     - name: Verify the Docker Container is Running
-      community.docker.docker_container_info:
-        name: my_app_calculator_container
-      register: container_info
-    - name: Display Container Info
-      ansible.builtin.debug:
-        var: container_info
+      shell: |
+       docker ps -a
+       docker images
+         
         
 
 
